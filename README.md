@@ -27,7 +27,3 @@ The project uses deep learning models (e.g., YOLO, Faster R-CNN, SSD) to process
 4. **Deployment**
    - Deploy a web app that accepts video streams.
    - Show real-time detection with bounding boxes and labels.
-
-
-   ```bash
-   git clone https://github.com/your-username/repo-name.git
