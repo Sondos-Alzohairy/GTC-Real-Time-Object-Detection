@@ -71,3 +71,43 @@ class YoloDetector:
                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
         
         return image 
+    
+    def detect_video(self, video_path, output_path = None):
+        """detect a videos version"""
+        cap = cv2.VideoCapture(video_path)
+        
+        if output_path:
+            fps = int(cap.get(cv2.CAP_PROP_FPS))
+            width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+            height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            writer = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (width, height))
+
+
+        frame_count = 0
+        while True : 
+            ret, frame = cap.read()
+
+            if not ret : 
+                break
+            result = self.detect(frame)
+            fps_current =  1.0 / result["inference_time"]
+            cv2.putText(result["image"], f"FPS: {fps_current :.1f}", (10, 30), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX, 1 ,(0,255,0),2)
+
+            if output_path : 
+                writer.write(result["image"])
+
+            cv2.imshow("Detection", result["image"])
+
+            if cv2.waitKey(1) & 0xFF  == ord("q"):
+                break
+            frame_count += 1
+            if frame_count % 30 == 0 :
+                print(f"Processed {frame_count} frames")
+            
+            cap.release()
+            if output_path : 
+                writer.release()
+            cv2.destroyAllWindows()
+            print(f"Process complete")
+
+            
