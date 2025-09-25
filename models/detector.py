@@ -13,7 +13,7 @@ class YoloDetector:
 
     def __init__(self, conf_threshold=0.5):
         self.conf_threshold = conf_threshold
-        self.model = YOLO("yolov8n.pt")
+        self.model = YOLO("best.pt")
         self.class_names =  ['person', 'car', 'truck', 'bus', 'traffic light', 'traffic sign']
 
     def detect(self, image):
