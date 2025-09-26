@@ -19,4 +19,4 @@ test_image_path = "testimg.jpg"
 image = cv2.imread(test_image_path)
 result = model.detect(image)
 
-cv2.imwrite("inference_with_our_model.jpg", result["image"])
+cv2.imwrite("inference_with_new_model.jpg", result["image"])
