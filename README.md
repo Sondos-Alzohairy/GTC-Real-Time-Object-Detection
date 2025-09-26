@@ -6,12 +6,8 @@ A real-time object detection system using YOLO for autonomous vehicle applicatio
 
 ### Real Detection Examples
 
-#### Urban Street Vehicle Detection
-![Urban Detection Example](assets/urban_street_detection.jpg)
-*Multi-vehicle detection in urban environment with high confidence scores: Cars (0.91, 0.90), Traffic Light (0.81), and multiple parked vehicles*
-
 #### Highway Traffic Detection  
-![Highway Detection](assets/highway_traffic_detection.jpg)
+![Highway Detection](assets/inference_with_our_model)
 *Real-time highway detection showing Cars (0.98, 0.70) and Bus (0.20) with precise bounding boxes*
 
 ### Detection Performance Highlights
