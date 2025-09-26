@@ -7,7 +7,7 @@ A real-time object detection system using YOLO for autonomous vehicle applicatio
 ### Real Detection Examples
 
 #### Highway Traffic Detection  
-![Highway Detection](assets/inference_with_our_model)
+![Highway Detection](assets/inference_with_our_model.jpg)
 *Real-time highway detection showing Cars (0.98, 0.70) and Bus (0.20) with precise bounding boxes*
 
 ### Detection Performance Highlights
