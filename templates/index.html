@@ -320,6 +320,7 @@
                 </div>
 
                 <div class="video-container">
+                    <!-- <video src="../inference_video_result.mp4" id="videoElement" autoplay muted playsinline></video> -->
                     <video id="videoElement" autoplay muted playsinline></video>
                     <canvas id="canvas"></canvas>
                     <div id="status" class="status idle">IDLE</div>
@@ -567,7 +568,26 @@
                 const showConfidence = document.getElementById('showConfidence').checked;
 
                 detections.forEach(detection => {
-                    const [x, y, width, height] = detection.bbox;
+                    // Handle both [x, y, w, h] and [x1, y1, x2, y2] formats
+                    let x, y, width, height;
+
+                    if (detection.bbox.length === 4) {
+                        // Check if it's [x, y, w, h] or [x1, y1, x2, y2]
+                        if (detection.bbox[2] > detection.bbox[0] && detection.bbox[3] > detection.bbox[1]) {
+                            // Likely [x1, y1, x2, y2] format
+                            x = detection.bbox[0];
+                            y = detection.bbox[1];
+                            width = detection.bbox[2] - detection.bbox[0];
+                            height = detection.bbox[3] - detection.bbox[1];
+                        } else {
+                            // [x, y, w, h] format
+                            x = detection.bbox[0];
+                            y = detection.bbox[1];
+                            width = detection.bbox[2];
+                            height = detection.bbox[3];
+                        }
+                    }
+
                     const confidence = detection.confidence;
 
                     // Color coding for different object types
@@ -578,6 +598,8 @@
                         case 'person': color = '#FFD700'; break;
                         case 'bicycle': color = '#FF69B4'; break;
                         case 'motorcycle': color = '#8A2BE2'; break;
+                        case 'bus': color = '#FFA500'; break;
+                        case 'traffic light': color = '#FFFFFF'; break;
                     }
 
                     // Draw bounding box
@@ -585,7 +607,7 @@
                     this.ctx.lineWidth = 3;
                     this.ctx.strokeRect(x, y, width, height);
 
-                    // Draw label background
+                    // Draw label background and text
                     if (showLabels || showConfidence) {
                         const label = showLabels ?
                             (showConfidence ? `${detection.class} ${(confidence * 100).toFixed(0)}%` : detection.class) :
@@ -594,9 +616,11 @@
                         this.ctx.font = '14px Arial';
                         const textWidth = this.ctx.measureText(label).width;
 
+                        // Background
                         this.ctx.fillStyle = color;
                         this.ctx.fillRect(x, y - 25, textWidth + 10, 20);
 
+                        // Text
                         this.ctx.fillStyle = '#FFFFFF';
                         this.ctx.fillText(label, x + 5, y - 10);
                     }
